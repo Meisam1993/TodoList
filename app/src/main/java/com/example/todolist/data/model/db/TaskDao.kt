@@ -22,4 +22,7 @@ interface TaskDao {
 
     @Delete
     suspend fun deleteTask(task: Task): Int
+
+    @Query("DELETE FROM task_table")
+    suspend fun clearTasks()
 }

@@ -55,6 +55,10 @@ class TaskAdapter(val listener: OnTaskItemEventListener) : RecyclerView.Adapter<
         }
     }
 
+    fun clearTasks() {
+
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
         return TaskViewHolder(view)

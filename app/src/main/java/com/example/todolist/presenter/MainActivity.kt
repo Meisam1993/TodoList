@@ -2,6 +2,7 @@ package com.example.todolist.presenter
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,6 +43,10 @@ class MainActivity : AppCompatActivity(), AddTaskDialogCallback, OnTaskItemEvent
         viewModel.deleteLiveState.observe(this, Observer {
             taskAdapter.deleteTask(it)
         })
+
+        viewModel.clearTasksLiveState.observe(this, Observer {
+            Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
+        })
     }
 
     private fun setupView() {
@@ -53,6 +58,11 @@ class MainActivity : AppCompatActivity(), AddTaskDialogCallback, OnTaskItemEvent
         val addTaskBtn = findViewById<FloatingActionButton>(R.id.add_task_btn)
         addTaskBtn.setOnClickListener {
             AddTaskDialog(this).show(supportFragmentManager, null)
+        }
+
+        val clearBtn = findViewById<ImageView>(R.id.clear_btn)
+        clearBtn.setOnClickListener {
+            viewModel.clearTasks()
         }
     }
 

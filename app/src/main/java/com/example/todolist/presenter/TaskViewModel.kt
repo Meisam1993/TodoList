@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.todolist.data.model.Task
 import com.example.todolist.data.repository.TaskRepository
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
@@ -22,6 +23,9 @@ class TaskViewModel(private val taskRepository: TaskRepository) : ViewModel() {
 
     private val _deleteTaskState: MutableLiveData<Task> = MutableLiveData()
     val deleteLiveState: LiveData<Task> = _deleteTaskState
+
+    private val _clearTasksState: MutableLiveData<String> = MutableLiveData()
+    val clearTasksLiveState: LiveData<String> = _clearTasksState
 
     init {
         getAllTasks()
@@ -53,6 +57,16 @@ class TaskViewModel(private val taskRepository: TaskRepository) : ViewModel() {
         val result = taskRepository.updateTask(task)
         if (result != -1) {
             _editTaskState.value = task
+        }
+    }
+
+    fun clearTasks() = viewModelScope.launch {
+        taskRepository.clearTasks()
+        val result = taskRepository.getAllTasks().first()
+        if (result.isNotEmpty()) {
+            _clearTasksState.postValue("Tasks Not cleared")
+        } else {
+            _clearTasksState.postValue("Tasks cleared successfully")
         }
     }
 }
