@@ -101,6 +101,10 @@ class MainActivity : AppCompatActivity(), AddTaskDialogCallback, OnTaskItemEvent
         viewModel.deleteTask(task)
     }
 
+    override fun onItemCheckedChange(task: Task) {
+        viewModel.editTask(task)
+    }
+
     override fun onEditTask(task: Task) {
         viewModel.editTask(task)
     }

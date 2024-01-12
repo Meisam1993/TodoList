@@ -4,12 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.CompoundButton
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.data.model.Task
 
-class TaskAdapter(val listener: OnTaskItemEventListener) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
+class TaskAdapter(val listener: OnTaskItemEventListener) :
+    RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
     private val taskList: MutableList<Task> = mutableListOf()
 
     inner class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -17,14 +19,19 @@ class TaskAdapter(val listener: OnTaskItemEventListener) : RecyclerView.Adapter<
         private val deleteBtn = itemView.findViewById<ImageView>(R.id.delete_task_btn)
 
         fun bindTask(task: Task) {
+            checkbox.setOnCheckedChangeListener(null)
             checkbox.isChecked = task.isCompleted
             checkbox.text = task.title
+            checkbox.setOnCheckedChangeListener { compoundButton, isChecked ->
+                task.isCompleted = isChecked
+                listener.onItemCheckedChange(task)
+            }
             deleteBtn.setOnClickListener {
                 listener.onDeleteButtonClick(task)
             }
             itemView.setOnLongClickListener {
                 listener.onTaskItemLongClick(task)
-                true
+                false
             }
         }
     }

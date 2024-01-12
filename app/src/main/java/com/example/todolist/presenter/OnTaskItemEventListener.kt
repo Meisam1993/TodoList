@@ -6,4 +6,6 @@ interface OnTaskItemEventListener {
     fun onTaskItemLongClick(task: Task)
 
     fun onDeleteButtonClick(task: Task)
+
+    fun onItemCheckedChange(task: Task)
 }
