@@ -1,6 +1,8 @@
 package com.example.todolist.data.model.db
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.todolist.data.model.Task
 import kotlinx.coroutines.flow.Flow
@@ -9,4 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface TaskDao {
     @Query("SELECT * FROM task_table")
     fun getAllTasks(): Flow<List<Task>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addTask(task: Task): Long
 }

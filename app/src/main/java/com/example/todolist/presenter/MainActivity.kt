@@ -2,13 +2,18 @@ package com.example.todolist.presenter
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
+import com.example.todolist.data.model.Task
+import com.example.todolist.presenter.dialogs.AddTaskDialog
+import com.example.todolist.presenter.dialogs.AddTaskDialogCallback
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AddTaskDialogCallback {
     private val viewModel: TaskViewModel by viewModel()
     private lateinit var recyclerView: RecyclerView
     private val taskAdapter = TaskAdapter()
@@ -23,6 +28,10 @@ class MainActivity : AppCompatActivity() {
         viewModel.getAllTasksState.observe(this, Observer {
             taskAdapter.addTasks(it)
         })
+
+        viewModel.addTaskState.observe(this, Observer {
+            Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
+        })
     }
 
     private fun setupView() {
@@ -30,5 +39,14 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
             adapter = taskAdapter
         }
+
+        val addTaskBtn = findViewById<FloatingActionButton>(R.id.add_task_btn)
+        addTaskBtn.setOnClickListener {
+            AddTaskDialog(this).show(supportFragmentManager, null)
+        }
+    }
+
+    override fun onNewTask(task: Task) {
+        viewModel.addTask(task)
     }
 }

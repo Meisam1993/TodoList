@@ -8,7 +8,7 @@ import com.example.todolist.data.utils.Constants.Companion.TASK_TABLE_NAME
 @Entity(tableName = TASK_TABLE_NAME)
 data class Task(
     @PrimaryKey(autoGenerate = true)
-    var id: Long? = 0,
+    var id: Long = 0,
     var title: String,
     @ColumnInfo(name = "completed")
     var isCompleted: Boolean = false
