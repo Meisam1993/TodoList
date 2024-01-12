@@ -55,8 +55,10 @@ class TaskAdapter(val listener: OnTaskItemEventListener) : RecyclerView.Adapter<
         }
     }
 
-    fun clearTasks() {
-
+    fun setSearchTasks(taskList: List<Task>) {
+        this.taskList.clear()
+        this.taskList.addAll(taskList)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {

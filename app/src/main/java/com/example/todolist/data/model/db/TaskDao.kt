@@ -25,4 +25,7 @@ interface TaskDao {
 
     @Query("DELETE FROM task_table")
     suspend fun clearTasks()
+
+    @Query("SELECT * FROM task_table WHERE title LIKE '%' || :query || '%'")
+    fun searchInTasks(query: String): Flow<List<Task>>
 }

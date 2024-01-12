@@ -2,6 +2,9 @@ package com.example.todolist.presenter
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -16,7 +19,8 @@ import com.example.todolist.presenter.dialogs.EditTaskDialogCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity(), AddTaskDialogCallback, OnTaskItemEventListener , EditTaskDialogCallback{
+class MainActivity : AppCompatActivity(), AddTaskDialogCallback, OnTaskItemEventListener,
+    EditTaskDialogCallback {
     private val viewModel: TaskViewModel by viewModel()
     private lateinit var recyclerView: RecyclerView
     private val taskAdapter = TaskAdapter(this)
@@ -40,12 +44,16 @@ class MainActivity : AppCompatActivity(), AddTaskDialogCallback, OnTaskItemEvent
             taskAdapter.editTask(it)
         })
 
-        viewModel.deleteLiveState.observe(this, Observer {
+        viewModel.deleteTaskState.observe(this, Observer {
             taskAdapter.deleteTask(it)
         })
 
-        viewModel.clearTasksLiveState.observe(this, Observer {
+        viewModel.clearTasksState.observe(this, Observer {
             Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
+        })
+
+        viewModel.searchInTasksState.observe(this, Observer {
+            taskAdapter.setSearchTasks(it)
         })
     }
 
@@ -64,6 +72,21 @@ class MainActivity : AppCompatActivity(), AddTaskDialogCallback, OnTaskItemEvent
         clearBtn.setOnClickListener {
             viewModel.clearTasks()
         }
+
+        val searchEt = findViewById<EditText>(R.id.search_bar)
+        searchEt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                viewModel.searchInTasks(p0.toString())
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+        })
     }
 
     override fun onNewTask(task: Task) {

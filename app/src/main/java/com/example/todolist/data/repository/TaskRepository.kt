@@ -14,4 +14,6 @@ interface TaskRepository {
     suspend fun deleteTask(task: Task): Int
 
     suspend fun clearTasks()
+
+    suspend fun searchInTasks(query: String): Flow<List<Task>>
 }

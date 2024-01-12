@@ -22,10 +22,13 @@ class TaskViewModel(private val taskRepository: TaskRepository) : ViewModel() {
     val editTaskState: LiveData<Task> = _editTaskState
 
     private val _deleteTaskState: MutableLiveData<Task> = MutableLiveData()
-    val deleteLiveState: LiveData<Task> = _deleteTaskState
+    val deleteTaskState: LiveData<Task> = _deleteTaskState
 
     private val _clearTasksState: MutableLiveData<String> = MutableLiveData()
-    val clearTasksLiveState: LiveData<String> = _clearTasksState
+    val clearTasksState: LiveData<String> = _clearTasksState
+
+    private val _searchInTasksState: MutableLiveData<List<Task>> = MutableLiveData()
+    val searchInTasksState: LiveData<List<Task>> = _searchInTasksState
 
     init {
         getAllTasks()
@@ -67,6 +70,17 @@ class TaskViewModel(private val taskRepository: TaskRepository) : ViewModel() {
             _clearTasksState.postValue("Tasks Not cleared")
         } else {
             _clearTasksState.postValue("Tasks cleared successfully")
+        }
+    }
+
+    fun searchInTasks(query: String) = viewModelScope.launch {
+        if (query != "") {
+             taskRepository.searchInTasks(query).onEach {
+
+                 _searchInTasksState.value = it
+             }.collect()
+        } else {
+            getAllTasks()
         }
     }
 }

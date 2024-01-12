@@ -15,4 +15,7 @@ class TaskRepositoryImpl(private val taskDao: TaskDao) : TaskRepository {
 
     override suspend fun clearTasks() = taskDao.clearTasks()
 
+    override suspend fun searchInTasks(query: String): Flow<List<Task>> =
+        taskDao.searchInTasks(query)
+
 }
