@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">TodoList</string>
+    <string name="main_activity_title">لیست وظایف</string>
+    <string name="dialog_add_title">وظیفه جدید</string>
+    <string name="dialog_add_task_title">عنوان وظیفه</string>
+    <string name="dialog_add_save_btn">ذخیره</string>
+    <string name="dialog_add_cancel_btn">لغو</string>
+    <string name="dialog_edit_title">ویرایش وظیفه</string>
+    <string name="dialog_edit_task_title">ویرایش عنوان وظیفه</string>
+    <string name="dialog_edit_update_btn">ویرایش</string>
+    <string name="dialog_edit_cancel_btn">لغو</string>
+    <string name="item_task_title">عنوان وظیفه</string>
 </resources>
