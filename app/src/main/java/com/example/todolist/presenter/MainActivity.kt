@@ -38,6 +38,10 @@ class MainActivity : AppCompatActivity(), AddTaskDialogCallback, OnTaskItemEvent
         viewModel.editTaskState.observe(this, Observer {
             taskAdapter.editTask(it)
         })
+
+        viewModel.deleteLiveState.observe(this, Observer {
+            taskAdapter.deleteTask(it)
+        })
     }
 
     private fun setupView() {
@@ -58,6 +62,10 @@ class MainActivity : AppCompatActivity(), AddTaskDialogCallback, OnTaskItemEvent
 
     override fun onTaskItemLongClick(task: Task) {
         EditTaskDialog(this, task).show(supportFragmentManager, null)
+    }
+
+    override fun onDeleteButtonClick(task: Task) {
+        viewModel.deleteTask(task)
     }
 
     override fun onEditTask(task: Task) {

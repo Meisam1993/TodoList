@@ -1,6 +1,7 @@
 package com.example.todolist.data.model.db
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -18,4 +19,7 @@ interface TaskDao {
 
     @Update
     suspend fun editTask(task: Task): Int
+
+    @Delete
+    suspend fun deleteTask(task: Task): Int
 }

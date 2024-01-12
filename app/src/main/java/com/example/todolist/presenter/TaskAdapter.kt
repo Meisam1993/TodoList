@@ -19,6 +19,9 @@ class TaskAdapter(val listener: OnTaskItemEventListener) : RecyclerView.Adapter<
         fun bindTask(task: Task) {
             checkbox.isChecked = task.isCompleted
             checkbox.text = task.title
+            deleteBtn.setOnClickListener {
+                listener.onDeleteButtonClick(task)
+            }
             itemView.setOnLongClickListener {
                 listener.onTaskItemLongClick(task)
                 true
@@ -37,6 +40,16 @@ class TaskAdapter(val listener: OnTaskItemEventListener) : RecyclerView.Adapter<
             if (taskList[i].id == task.id) {
                 taskList[i] = task
                 notifyItemChanged(i)
+                break
+            }
+        }
+    }
+
+    fun deleteTask(task: Task) {
+        for (i in 0 until taskList.size) {
+            if (taskList[i].id == task.id) {
+                taskList[i] = task
+                notifyItemRemoved(i)
                 break
             }
         }

@@ -10,4 +10,6 @@ interface TaskRepository {
     suspend fun addTask(task: Task): Long
 
     suspend fun updateTask(task: Task): Int
+
+    suspend fun deleteTask(task: Task): Int
 }

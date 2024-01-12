@@ -20,6 +20,9 @@ class TaskViewModel(private val taskRepository: TaskRepository) : ViewModel() {
     private val _editTaskState: MutableLiveData<Task> = MutableLiveData()
     val editTaskState: LiveData<Task> = _editTaskState
 
+    private val _deleteTaskState: MutableLiveData<Task> = MutableLiveData()
+    val deleteLiveState: LiveData<Task> = _deleteTaskState
+
     init {
         getAllTasks()
     }
@@ -36,6 +39,13 @@ class TaskViewModel(private val taskRepository: TaskRepository) : ViewModel() {
             _addTaskState.postValue("Task not added")
         } else {
             _addTaskState.postValue("Task added successfully")
+        }
+    }
+
+    fun deleteTask(task: Task) = viewModelScope.launch {
+        val result = taskRepository.deleteTask(task)
+        if (result != -1) {
+            _deleteTaskState.value = task
         }
     }
 
