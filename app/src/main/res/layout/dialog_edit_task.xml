@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/dialog_title"
+        android:id="@+id/dialog_edit_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/dialog_TIL"
+        android:id="@+id/dialog_edit_TIL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
@@ -28,10 +28,10 @@
         android:textDirection="rtl"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dialog_title">
+        app:layout_constraintTop_toBottomOf="@id/dialog_edit_title">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/dialog_TIET"
+            android:id="@+id/dialog_edit_TIET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/dialog_edit_task_title"
@@ -39,7 +39,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/dialog_save_btn"
+        android:id="@+id/dialog_edit_save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
@@ -49,11 +49,11 @@
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dialog_TIL"
+        app:layout_constraintTop_toBottomOf="@id/dialog_edit_TIL"
         tools:ignore="SmallSp" />
 
     <Button
-        android:id="@+id/dialog_cancel_btn"
+        android:id="@+id/dialog_edit_cancel_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
@@ -62,8 +62,8 @@
         android:text="@string/dialog_edit_cancel_btn"
         android:textColor="?colorOnSecondary"
         android:textSize="10sp"
-        app:layout_constraintLeft_toRightOf="@id/dialog_save_btn"
-        app:layout_constraintTop_toBottomOf="@id/dialog_TIL"
+        app:layout_constraintLeft_toRightOf="@id/dialog_edit_save_btn"
+        app:layout_constraintTop_toBottomOf="@id/dialog_edit_TIL"
         tools:ignore="SmallSp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

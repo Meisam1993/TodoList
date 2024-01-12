@@ -10,13 +10,15 @@ import com.example.todolist.R
 import com.example.todolist.data.model.Task
 import com.example.todolist.presenter.dialogs.AddTaskDialog
 import com.example.todolist.presenter.dialogs.AddTaskDialogCallback
+import com.example.todolist.presenter.dialogs.EditTaskDialog
+import com.example.todolist.presenter.dialogs.EditTaskDialogCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity(), AddTaskDialogCallback {
+class MainActivity : AppCompatActivity(), AddTaskDialogCallback, OnTaskItemEventListener , EditTaskDialogCallback{
     private val viewModel: TaskViewModel by viewModel()
     private lateinit var recyclerView: RecyclerView
-    private val taskAdapter = TaskAdapter()
+    private val taskAdapter = TaskAdapter(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,6 +33,10 @@ class MainActivity : AppCompatActivity(), AddTaskDialogCallback {
 
         viewModel.addTaskState.observe(this, Observer {
             Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
+        })
+
+        viewModel.editTaskState.observe(this, Observer {
+            taskAdapter.editTask(it)
         })
     }
 
@@ -48,5 +54,13 @@ class MainActivity : AppCompatActivity(), AddTaskDialogCallback {
 
     override fun onNewTask(task: Task) {
         viewModel.addTask(task)
+    }
+
+    override fun onTaskItemLongClick(task: Task) {
+        EditTaskDialog(this, task).show(supportFragmentManager, null)
+    }
+
+    override fun onEditTask(task: Task) {
+        viewModel.editTask(task)
     }
 }

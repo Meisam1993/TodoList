@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.data.model.Task
 
-class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
+class TaskAdapter(val listener: OnTaskItemEventListener) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
     private val taskList: MutableList<Task> = mutableListOf()
 
     inner class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -19,6 +19,10 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
         fun bindTask(task: Task) {
             checkbox.isChecked = task.isCompleted
             checkbox.text = task.title
+            itemView.setOnLongClickListener {
+                listener.onTaskItemLongClick(task)
+                true
+            }
         }
     }
 
@@ -26,6 +30,16 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
         this.taskList.clear()
         this.taskList.addAll(taskList)
         notifyDataSetChanged()
+    }
+
+    fun editTask(task: Task) {
+        for (i in 0 until taskList.size) {
+            if (taskList[i].id == task.id) {
+                taskList[i] = task
+                notifyItemChanged(i)
+                break
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
